@@ -1,20 +1,33 @@
 <template>
-    <div>
-        <h1>Настройки уведомлений</h1>
-        <div class="home">
-            <div class="form-check form-switch">
-                <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="flexSwitchCheckDefault"
-                    v-model="push_enable"
-                />
-                <label
-                    class="form-check-label"
-                    for="flexSwitchCheckDefault"
-                    >Тестовые пуш уведомления</label
-                >
+    <div class="container">
+        <div class="row p-4">
+            <h2>Настройки кэша</h2>
+            <button
+                type="button"
+                class="btn btn-danger"
+                @click="clear_cache"
+            >
+                Очистить кэш
+            </button>
+        </div>
+
+        <div class="row p-4">
+            <h2>Настройки уведомлений</h2>
+            <div class="home">
+                <div class="form-check form-switch">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                        v-model="push_enable"
+                    />
+                    <label
+                        class="form-check-label"
+                        for="flexSwitchCheckDefault"
+                        >Тестовые пуш уведомления</label
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -34,6 +47,25 @@ export default {
                 ),
             );
         },
+    },
+    methods: {
+        clear_cache() {
+            caches.keys().then(cacheNames => {
+                cacheNames.forEach(cacheName => {
+                    caches.delete(cacheName);
+                    console.log(`Cache ${cacheName} cleared`);
+                });
+            });
+        },
+    },
+    mounted() {
+        let changeHeaderLayoutEvent = new CustomEvent('change-header-layout', {
+            detail: {
+                layoutName: 'back',
+                text: 'Инструменты разработчика',
+            },
+        });
+        document.dispatchEvent(changeHeaderLayoutEvent);
     },
 };
 </script>
