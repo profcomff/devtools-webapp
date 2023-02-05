@@ -9,6 +9,8 @@
             >
                 Очистить кэш
             </button>
+
+            <p>Full cache size: {{ current_cache_size }}</p>
         </div>
 
         <div class="row p-4">
@@ -37,6 +39,7 @@
 export default {
     data: () => ({
         push_enable: localStorage.getItem('devtools_push_enable') || false,
+        current_cache_size: 0,
     }),
     watch: {
         push_enable(newstate) {
@@ -50,11 +53,41 @@ export default {
     },
     methods: {
         clear_cache() {
-            caches.keys().then(cacheNames => {
-                cacheNames.forEach(cacheName => {
-                    caches.delete(cacheName);
-                    console.log(`Cache ${cacheName} cleared`);
-                });
+            caches
+                .keys()
+                .then(cacheNames => {
+                    cacheNames.forEach(cacheName => {
+                        caches.delete(cacheName);
+                        console.log(`Cache ${cacheName} cleared`);
+                    });
+                })
+                .then(() =>
+                    this.cache_size_all().then(
+                        v => (this.current_cache_size = v),
+                    ),
+                );
+        },
+        async cache_size(c) {
+            // returns approximate size of a single cache (in bytes)
+            return c.keys().then(a => {
+                return Promise.all(
+                    a.map(req =>
+                        c.match(req).then(res =>
+                            res
+                                .clone()
+                                .blob()
+                                .then(b => b.size),
+                        ),
+                    ),
+                ).then(a => a.reduce((acc, n) => acc + n, 0));
+            });
+        },
+        async cache_size_all() {
+            // returns approximate size of all caches (in bytes)
+            return caches.keys().then(a => {
+                return Promise.all(
+                    a.map(n => caches.open(n).then(c => this.cache_size(c))),
+                ).then(a => a.reduce((acc, n) => acc + n, 0));
             });
         },
     },
@@ -66,6 +99,7 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+        this.cache_size_all().then(v => (this.current_cache_size = v));
     },
 };
 </script>
