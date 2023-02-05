@@ -38,12 +38,12 @@
 <script>
 export default {
     data: () => ({
-        push_enable: localStorage.getItem('devtools_push_enable') || false,
+        push_enable: localStorage.getItem('devtools-push-enable') || false,
         current_cache_size: 0,
     }),
     watch: {
         push_enable(newstate) {
-            localStorage.setItem('devtools_push_enable', newstate);
+            localStorage.setItem('devtools-push-enable', newstate);
             dispatchEvent(
                 new Event(
                     newstate ? 'devtools-push-enable' : 'devtools-push-disable',
