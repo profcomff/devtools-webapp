@@ -1,13 +1,13 @@
 module.exports = {
-      runtimeCompiler: true,
-      configureWebpack: {
+    runtimeCompiler: true,
+    configureWebpack: {
         output: {
             libraryTarget: 'system',
         },
         devServer: {
             hot: false,
-            liveReload: false
+            liveReload: false,
         },
-        externals: ["single-spa", "vue", "vue-router"]
+        externals: ['single-spa', 'vue', 'vue-router'],
     },
 };
