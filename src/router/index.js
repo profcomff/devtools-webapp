@@ -7,6 +7,18 @@ const routes = [
         name: 'home',
         component: HomeView,
     },
+    {
+        path: '/devtools/auth',
+        component: () => import('../views/AuthView.vue'),
+    },
+    {
+        path: '/devtools/register',
+        component: () => import('../views/RegisterView.vue'),
+    },
+    {
+        path: '/devtools/me',
+        component: () => import('../views/MeView.vue'),
+    },
 ];
 
 const router = createRouter({
