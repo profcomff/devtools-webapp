@@ -14,6 +14,27 @@
         </div>
 
         <div class="row p-4">
+            <RouterLink
+                class="btn btn-primary my-2"
+                to="/devtools/auth"
+            >
+                Авторизация
+            </RouterLink>
+            <RouterLink
+                class="btn btn-primary my-2"
+                to="/devtools/register"
+            >
+                Регистрация
+            </RouterLink>
+            <RouterLink
+                class="btn btn-primary my-2"
+                to="/devtools/me"
+            >
+                Информация о текущем пользователе
+            </RouterLink>
+        </div>
+
+        <div class="row p-4">
             <h2>Настройки уведомлений</h2>
             <div class="home">
                 <div class="form-check form-switch">
