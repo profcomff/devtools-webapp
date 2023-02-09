@@ -6,7 +6,7 @@
             прикручиванию авторизации в приложение. Ниже вы можете
             зарегистрироваться.
         </p>
-        <form action="">
+        <form @submit.prevent="register">
             <div class="mb-3 row">
                 <label
                     for="staticEmail"
@@ -20,6 +20,7 @@
                         class="form-control"
                         id="staticEmail"
                         placeholder="email@example.com"
+                        v-model="email"
                     />
                 </div>
             </div>
@@ -35,6 +36,7 @@
                         type="password"
                         class="form-control"
                         id="inputPassword"
+                        v-model="password"
                     />
                 </div>
             </div>
@@ -50,6 +52,7 @@
                         type="password"
                         class="form-control"
                         id="reinputPassword"
+                        v-model="repassword"
                     />
                 </div>
             </div>
@@ -73,6 +76,11 @@
 
 <script>
 export default {
+    data: () => ({
+        email: '',
+        password: '',
+        repassword: '',
+    }),
     mounted() {
         let changeHeaderLayoutEvent = new CustomEvent('change-header-layout', {
             detail: {
@@ -81,6 +89,29 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+    },
+    methods: {
+        register() {
+            if (this.password !== this.repassword) {
+                alert('Пароли не совпадают');
+                return;
+            }
+
+            fetch(`${process.env.VUE_APP_API_AUTH}/email/registration`, {
+                method: 'POST',
+                cache: 'no-cache',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password,
+                }),
+            })
+                .then(response => response.text())
+                .then(response => {
+                    alert(response);
+                });
+        },
     },
 };
 </script>

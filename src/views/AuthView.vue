@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container" @submit.prevent="auth">
         <h1>Вход в приложение</h1>
         <p>
             Добро пожаловать! Тут находится наша нулевая итерация по
@@ -20,6 +20,7 @@
                         class="form-control"
                         id="staticEmail"
                         placeholder="email@example.com"
+                        v-model="email"
                     />
                 </div>
             </div>
@@ -35,6 +36,7 @@
                         type="password"
                         class="form-control"
                         id="inputPassword"
+                        v-model="password"
                     />
                 </div>
             </div>
@@ -43,7 +45,7 @@
                     type="submit"
                     class="btn btn-success my-2"
                 >
-                    Зарегистрироваться
+                    Войти
                 </button>
                 <RouterLink
                     to="/devtools"
@@ -58,6 +60,10 @@
 
 <script>
 export default {
+    data: () => ({
+        email: '',
+        password: '',
+    }),
     mounted() {
         let changeHeaderLayoutEvent = new CustomEvent('change-header-layout', {
             detail: {
@@ -66,6 +72,30 @@ export default {
             },
         });
         document.dispatchEvent(changeHeaderLayoutEvent);
+    },
+    methods: {
+        auth() {
+            if (this.email === '' || this.password === '') {
+                alert('Пустой логин или пароль');
+                return;
+            }
+
+            fetch(`${process.env.VUE_APP_API_AUTH}/email/login`, {
+                method: 'POST',
+                cache: 'no-cache',
+                redirect: 'follow',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password,
+                }),
+            })
+                .then(response => response.json())
+                .then(json => {
+                    localStorage.setItem('auth-token', json.token);
+                    alert(JSON.stringify(json));
+                });
+        },
     },
 };
 </script>
