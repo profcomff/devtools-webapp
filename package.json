@@ -5,10 +5,7 @@
     "scripts": {
         "start": "vue-cli-service serve --port 9005",
         "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint",
-        "serve:standalone": "vue-cli-service serve --mode standalone",
-        "format": "prettier --check .",
-        "format:write": "prettier --write ."
+        "serve:standalone": "vue-cli-service serve --mode standalone"
     },
     "dependencies": {
         "core-js": "^3.8.3",
@@ -23,25 +20,7 @@
         "@vue/cli-plugin-eslint": "~5.0.0",
         "@vue/cli-plugin-router": "~5.0.0",
         "@vue/cli-service": "~5.0.0",
-        "@vue/eslint-config-prettier": "^7.0.0",
-        "eslint": "^7.32.0",
-        "eslint-plugin-vue": "^8.0.3",
-        "prettier": "^2.8.3",
         "vue-cli-plugin-single-spa": "~3.3.0"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/vue3-essential",
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "parser": "@babel/eslint-parser"
-        },
-        "rules": {}
     },
     "browserslist": [
         "> 1%",
