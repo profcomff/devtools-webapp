@@ -37,13 +37,12 @@ export default {
             fetch(
                 `${process.env.VUE_APP_API_AUTH}/me?info=groups&info=indirect_groups`,
                 {
-                    method: 'POST',
+                    method: 'GET',
                     cache: 'no-cache',
                     redirect: 'follow',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `token ${value}`,
-                        'token': `${value}`,
+                        'Authorization': `${value}`,
                     },
                 },
             )
