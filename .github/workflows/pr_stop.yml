@@ -1,4 +1,4 @@
-name: Review deployment
+name: Deploy pull request (stop)
 
 on:
   pull_request:

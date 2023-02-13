@@ -1,4 +1,4 @@
-name: Review deployment
+name: Deploy pull request
 
 on:
   pull_request:
@@ -46,7 +46,8 @@ jobs:
         name: Deploy Development
         needs: build-and-push-image
         environment:
-          url: https://${{ github.event.repository.name }}__pr-${{ github.event.pull_request.number }}.dev.profcomff.com/
+            name: development
+            url: https://${{ github.event.repository.name }}__pr-${{ github.event.pull_request.number }}.dev.profcomff.com/
         steps:
             - name: Deploy
               run: |
