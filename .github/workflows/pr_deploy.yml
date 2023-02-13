@@ -9,7 +9,7 @@ env:
     IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-    build-and-deploy-image-dev:
+    build-and-push-image:
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -42,6 +42,12 @@ jobs:
                   tags: ${{ steps.meta.outputs.tags }}
                   labels: ${{ steps.meta.outputs.labels }}
 
+    deploy-dev:
+        name: Deploy Development
+        needs: build-and-push-image
+        environment:
+          url: https://${{ github.event.repository.name }}__pr-${{ github.event.pull_request.number }}.dev.profcomff.com/
+        steps:
             - name: Deploy
               run: |
                 curl -X 'POST' \
