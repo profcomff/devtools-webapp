@@ -1,5 +1,8 @@
 <template>
-    <div class="container" @submit.prevent="auth">
+    <div
+        class="container"
+        @submit.prevent="auth"
+    >
         <h1>Вход в приложение</h1>
         <p>
             Добро пожаловать! Тут находится наша нулевая итерация по
