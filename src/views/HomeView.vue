@@ -65,11 +65,7 @@ export default {
     watch: {
         push_enable(newstate) {
             localStorage.setItem('devtools-push-enable', newstate);
-            dispatchEvent(
-                new Event(
-                    newstate ? 'devtools-push-enable' : 'devtools-push-disable',
-                ),
-            );
+            dispatchEvent(new Event(newstate ? 'devtools-push-enable' : 'devtools-push-disable'));
         },
     },
     methods: {
@@ -82,11 +78,7 @@ export default {
                         console.log(`Cache ${cacheName} cleared`);
                     });
                 })
-                .then(() =>
-                    this.cache_size_all().then(
-                        v => (this.current_cache_size = v),
-                    ),
-                );
+                .then(() => this.cache_size_all().then(v => (this.current_cache_size = v)));
         },
         async cache_size(c) {
             // returns approximate size of a single cache (in bytes)
@@ -106,9 +98,9 @@ export default {
         async cache_size_all() {
             // returns approximate size of all caches (in bytes)
             return caches.keys().then(a => {
-                return Promise.all(
-                    a.map(n => caches.open(n).then(c => this.cache_size(c))),
-                ).then(a => a.reduce((acc, n) => acc + n, 0));
+                return Promise.all(a.map(n => caches.open(n).then(c => this.cache_size(c)))).then(a =>
+                    a.reduce((acc, n) => acc + n, 0),
+                );
             });
         },
     },
